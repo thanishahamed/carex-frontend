@@ -1,0 +1,80 @@
+.left-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  /* background-color: royalblue; */
+  width: 100%;
+  padding: 50px;
+}
+
+.right-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  width: 100%;
+  padding: 50px;
+}
+
+.main-content {
+  margin-left: 0px;
+}
+
+.block-2 {
+  background-color: #2874a6;
+  /* background-color: rgb(5, 131, 148); */
+  color: rgb(252, 252, 252);
+  padding-top: 100px;
+  padding-bottom: 100px;
+  text-align: center;
+}
+
+.block-4 {
+  /* background-color: #ba2c42; */
+  /* background-color: #DC7633; */
+  color: rgb(0, 0, 0);
+  padding-top: 100px;
+  padding-bottom: 100px;
+  text-align: center;
+}
+
+.main-background {
+  /* background-image: url('https://www.silverlineschool.com/wp-content/uploads/2016/11/sayagata-400px.png'); */
+  background-image: url("../../../assets/pictures/bg2.png");
+  backface-visibility: hidden;
+  /* z-index: -1; */
+}
+
+@media only screen and (max-width: 600px) {
+  .left-side {
+    align-items: flex-end;
+    height: 50vh;
+    padding: 10px;
+  }
+
+  .block-4 {
+    /* background-color: #ba2c42; */
+    /* background-color: #DC7633; */
+    color: rgb(0, 0, 0);
+    margin-top: -200px;
+    margin-bottom: -670px;
+    padding-bottom: 100px;
+    text-align: center;
+  }
+
+  .block-5 {
+    /* background-color: #ba2c42; */
+    background-color: #eeeeee;
+    /* color: rgb(0, 0, 0); */
+    margin-top: 600px;
+    /* margin-bottom: -670px; */
+    /* padding-bottom: 100px; */
+    /* text-align: center; */
+  }
+
+  .right-side {
+    height: 50vh;
+    padding: 10px;
+  }
+}

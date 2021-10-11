@@ -1,0 +1,159 @@
+.button-block-holder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.block-button-donate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 200px;
+    min-height: 200px;
+    transform: translateY(10px);
+    background-color: rgb(243, 243, 243);
+    margin: 10px;
+    transition: 0.5s;
+    color:rgb(5, 5, 5);
+}
+
+.block-button-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 200px;
+    min-height: 200px;
+    transform: translateY(10px);
+    background-color: rgb(243, 243, 243);
+    margin: 10px;
+    transition: 0.5s;
+    color:rgb(5, 5, 5);
+}
+
+.block-button-organ {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 200px;
+    min-height: 200px;
+    transform: translateY(10px);
+    background-color: rgb(243, 243, 243);
+    margin: 10px;
+    transition: 0.5s;
+    color:rgb(5, 5, 5);
+}
+
+.block-button-student-fund {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 200px;
+    min-height: 200px;
+    transform: translateY(10px);
+    background-color: rgb(243, 243, 243);
+    margin: 10px;
+    transition: 0.5s;
+    color:rgb(5, 5, 5);
+}
+
+.block-button-donate:hover{
+    animation-name: btn-donate-animate;
+    animation-duration: 0.5s;
+    cursor: pointer;
+    transform: translateY(0px);
+    color: rgb(255, 255, 255);
+    background-color: rgb(214, 74, 74);
+}
+
+.block-button-body:hover{
+    animation-name: btn-donate-body;
+    animation-duration: 0.5s;
+    cursor: pointer;
+    transform: translateY(0px);
+    color: rgb(255, 255, 255);
+    background-color: #1c989c;
+}
+
+.block-button-organ:hover{
+    animation-name: btn-donate-organ;
+    animation-duration: 0.5s;
+    cursor: pointer;
+    transform: translateY(0px);
+    color: rgb(255, 255, 255);
+    background-color: #be940a;
+}
+
+.block-button-student-fund:hover{
+    animation-name: btn-donate-student-fund;
+    animation-duration: 0.5s;
+    cursor: pointer;
+    transform: translateY(0px);
+    color: rgb(255, 255, 255);
+    background-color: #3b607a;
+}
+
+.block-button-donate:active { 
+    transform: scale(1.2);
+}
+
+.block-button-body:active { 
+    transform: scale(1.2);
+}
+.block-button-organ:active { 
+    transform: scale(1.2);
+}
+.block-button-student-fund:active { 
+    transform: scale(1.2);
+}
+
+@keyframes btn-donate-animate {
+    from {
+        background-color: rgb(243, 243, 243);
+        color:rgb(5, 5, 5);
+    }
+    to {
+        color: rgb(255, 255, 255);
+        background-color: rgb(214, 74, 74);
+    }
+}
+
+
+@keyframes btn-donate-body {
+    from {
+        background-color: rgb(243, 243, 243);
+        color:rgb(5, 5, 5);
+    }
+    to {
+        color: rgb(255, 255, 255);
+        background-color: #1c989c;
+    }
+}
+
+
+@keyframes btn-donate-organ {
+    from {
+        background-color: rgb(243, 243, 243);
+        color:rgb(5, 5, 5);
+    }
+    to {
+        color: rgb(255, 255, 255);
+        background-color: #be940a;
+    }
+}
+
+
+@keyframes btn-donate-student-fund {
+    from {
+        background-color: rgb(243, 243, 243);
+        color:rgb(5, 5, 5);
+    }
+    to {
+        color: rgb(255, 255, 255);
+        background-color: #3b607a;
+    }
+}

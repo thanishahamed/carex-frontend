@@ -1,0 +1,111 @@
+.info-display-area {
+  display: flex;
+  flex-direction: row;
+  scroll-behavior: smooth;
+  overflow-x: scroll;
+  min-height: 190px;
+  width: 100%;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  min-height: 300px;
+  min-width: 190px;
+  scroll-behavior: smooth;
+  overflow: auto;
+}
+
+.urgent-info-container {
+  min-width: 140px;
+  min-height: 190px;
+  margin: 10px;
+  margin-left: 0px;
+}
+
+.add-post-container {
+  min-width: 100%;
+  padding: 10px;
+  margin: 10px 0px;
+  text-align: center;
+}
+
+.add-post-modal-view {
+  text-align: left;
+}
+
+.button-sets {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 10px;
+  width: 100%;
+}
+
+.post-images-view {
+  margin: -10px 10px;
+}
+
+.comment-area {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.users-comments-container {
+  overflow-x: scroll;
+  max-height: 200px;
+}
+
+.postTitle {
+  margin-top: 20px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.organDonation {
+  background-color: #e74c3c;
+}
+
+.normalPost {
+  background-color: #3498db;
+}
+
+.normalPost {
+  background-color: #b9b9b9;
+  color: #000;
+}
+
+.carexPost {
+  background-color: #17a589;
+}
+
+.bloodDonation {
+  background-color: #c0392b;
+}
+
+.educational {
+  background-color: #f39c12;
+}
+
+.studyFund {
+  background-color: #3498db;
+}
+
+.bodyContent {
+  border: 0.5px solid #cacfd2;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 10px;
+  transition: 1s;
+  border-radius: 10px;
+}
+
+.bodyContent:hover {
+  background-color: aliceblue;
+}
