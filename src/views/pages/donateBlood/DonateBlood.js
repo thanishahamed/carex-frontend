@@ -1,11 +1,4 @@
-import {
-  Badge,
-  Button,
-  Checkbox,
-  MenuItem,
-  Paper,
-  Select,
-} from "@material-ui/core";
+import { Button, Checkbox, MenuItem, Paper, Select } from "@material-ui/core";
 import React, { useState } from "react";
 import { Fade } from "react-reveal";
 import OpacityIcon from "@material-ui/icons/Opacity";

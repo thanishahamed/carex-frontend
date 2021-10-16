@@ -172,9 +172,8 @@ const DonateOrgan = (props) => {
             </CCol>
             <CCol>
               <h4>
-                {" "}
                 Please fill this form before you proceed to donate an organ
-                after death or after brain death{" "}
+                after death or after brain death
               </h4>
               <p>We welcome voluntory non remunerated donors.</p>
             </CCol>
@@ -197,8 +196,7 @@ const DonateOrgan = (props) => {
                 className="mx-3"
               >
                 <MenuItem value="">
-                  {" "}
-                  <em>None</em>{" "}
+                  <em>None</em>
                 </MenuItem>
                 <MenuItem value={"A+"}>A+</MenuItem>
                 <MenuItem value={"A-"}>A-</MenuItem>
@@ -213,8 +211,7 @@ const DonateOrgan = (props) => {
               <CLabel> 2. Select the organs you wish to donate: </CLabel>
               <ul>
                 <li>
-                  {" "}
-                  <h5> After death or brain death </h5>{" "}
+                  <h5> After death or brain death </h5>
                 </li>
                 <CRow>
                   <CCol sm="4">
@@ -356,8 +353,7 @@ const DonateOrgan = (props) => {
                 </CRow>
 
                 <li>
-                  {" "}
-                  <h5> While Alive </h5>{" "}
+                  <h5> While Alive </h5>
                 </li>
                 <CRow>
                   <CCol sm="4">
@@ -437,8 +433,7 @@ const DonateOrgan = (props) => {
               <br />
 
               <CBadge color="dark" className="p-2 my-4">
-                {" "}
-                Conditions for donating living organ/tissue{" "}
+                Conditions for donating living organ/tissue
               </CBadge>
 
               <p className="px-4" align="justify">
@@ -465,16 +460,14 @@ const DonateOrgan = (props) => {
                   color="danger"
                   onClick={downloadAgreement}
                 >
-                  {" "}
-                  Download{" "}
+                  Download
                 </Button>
               </p>
 
               <p className="px-4">
                 <strong>
-                  {" "}
                   Take a photo of your hand filled agreement form and attach a
-                  certificate from the nearest hospital and upload.{" "}
+                  certificate from the nearest hospital and upload.
                 </strong>
               </p>
 
@@ -504,8 +497,7 @@ const DonateOrgan = (props) => {
               <br />
 
               <CBadge color="warning" className="p-2 my-4">
-                {" "}
-                Medical reasons for not becoming a transplant donor{" "}
+                Medical reasons for not becoming a transplant donor
               </CBadge>
               <p>
                 Even if you are a registered donor, your organs or tissue may be
@@ -516,15 +508,13 @@ const DonateOrgan = (props) => {
                 <li> Had blood poisoning (sepsis) </li>
                 <li> Were infected with a virus </li>
                 <li>
-                  {" "}
                   Acquired a tattoo or piercing in the 6 months before your
                   death.
                 </li>
               </ul>
 
               <CBadge color="light" className="p-2 my-4">
-                {" "}
-                Donation only when the donor dies in hospital{" "}
+                Donation only when the donor dies in hospital
               </CBadge>
               <p>
                 Organ donation is only possible when the donor has died in
@@ -538,8 +528,7 @@ const DonateOrgan = (props) => {
               </p>
 
               <CBadge color="light" className="p-2 my-4">
-                {" "}
-                Age of donors{" "}
+                Age of donors
               </CBadge>
               <p>
                 There is no general age limit. Although the heart of an
@@ -554,40 +543,35 @@ const DonateOrgan = (props) => {
                     target="_blank"
                     href="https://slja.sljol.info/articles/10.4038/slja.v27i2.8446/galley/6370/download/"
                   >
-                    {" "}
-                    Cite 1{" "}
-                  </a>{" "}
+                    Cite 1
+                  </a>
                   <br />
                   <a
                     target="_blank"
                     href="https://slja.sljol.info/articles/abstract/10.4038/slja.v27i2.8446/"
                   >
-                    {" "}
-                    Cite 2{" "}
-                  </a>{" "}
+                    Cite 2
+                  </a>
                   <br />
                   <a
                     target="_blank"
                     href="https://www.government.nl/topics/organ-tissue-donation/question-and-answer/if-i-am-a-registered-donor-what-will-happen-to-my-body-after-my-death"
                   >
-                    {" "}
-                    Cite 3{" "}
-                  </a>{" "}
+                    Cite 3
+                  </a>
                   <br />
                   <a
                     target="_blank"
                     href="https://www.government.nl/topics/organ-tissue-donation/question-and-answer/donate-organ-tissue-while-alive"
                   >
-                    {" "}
-                    Cite 4{" "}
-                  </a>{" "}
+                    Cite 4
+                  </a>
                   <br />
                   <a
                     target="_blank"
                     href="https://slja.sljol.info/articles/10.4038/slja.v27i2.8446/galley/6370/download/"
                   >
-                    {" "}
-                    Cite 5{" "}
+                    Cite 5
                   </a>
                 </small>
               </p>
@@ -615,16 +599,14 @@ const DonateOrgan = (props) => {
                   className="mx-3"
                   onClick={() => props.history.push("/services/donate")}
                 >
-                  {" "}
-                  Reset and go back{" "}
+                  Reset and go back
                 </Button>
                 <Button
                   color="primary"
                   variant="contained"
                   onClick={saveDonation}
                 >
-                  {" "}
-                  Save{" "}
+                  Save
                 </Button>
               </p>
             </div>

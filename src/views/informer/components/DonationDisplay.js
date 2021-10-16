@@ -22,6 +22,7 @@ export default function DonationDisplay(props) {
     setSuccess(true);
     setAvailableModal(false);
   };
+  console.log("Props data", props.data);
   return (
     <div>
       <Alert color="error"> CONFIDENTIAL! PLEASE HANDLE CAREFULLY!</Alert>
@@ -42,26 +43,32 @@ export default function DonationDisplay(props) {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {props.data.id}
+                {props.data ? props.data.id : ""}
               </TableCell>
               <TableCell align="right">
-                {props.data.blood_group.toUpperCase()}
+                {props.data ? props.data.blood_group.toUpperCase() : ""}
               </TableCell>
               <TableCell align="right">
-                {props.data.method.toUpperCase()}
+                {props.data ? props.data.method.toUpperCase() : ""}
               </TableCell>
               <TableCell align="right">
-                {props.data.status.toUpperCase()}
+                {props.data ? props.data.status.toUpperCase() : ""}
               </TableCell>
               <TableCell align="right">
-                {moment(props.data.created_at).format("LLL")}
+                {props.data ? moment(props.data.created_at).format("LLL") : ""}
               </TableCell>
               <TableCell align="right">
                 <Button
                   variant="contained"
                   color="secondary"
                   onClick={() => setAvailableModal(true)}
-                  disabled={props.data.status === "informed" ? true : false}
+                  disabled={
+                    props.data
+                      ? props.data.status === "informed"
+                        ? true
+                        : false
+                      : ""
+                  }
                 >
                   Mark as available!
                 </Button>
@@ -73,7 +80,7 @@ export default function DonationDisplay(props) {
       <MarkAvailablity
         availableModal={availableModal}
         setAvailableModal={setAvailableModal}
-        organId={props.data.id}
+        organId={props.data ? props.data.id : ""}
         markedSuccess={markedSuccess}
       />
       <ProcessSuccess success={success} />

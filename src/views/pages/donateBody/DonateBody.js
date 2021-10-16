@@ -1,193 +1,325 @@
-import React from 'react';
-import { CBadge, CCol, CInput, CLabel, CRow } from '@coreui/react';
-import { Button, Checkbox, MenuItem, Paper, Select } from '@material-ui/core';
-import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
-import { Fade } from 'react-reveal';
-import { DropzoneArea } from 'material-ui-dropzone';
-import './body.css';
-import Confirm from 'src/views/alertComponents/Confirm';
+import React, { useState } from "react";
+import { CBadge, CCol, CInput, CLabel, CRow, CTextarea } from "@coreui/react";
+import { Button, Checkbox, MenuItem, Paper, Select } from "@material-ui/core";
+import AirlineSeatFlatIcon from "@material-ui/icons/AirlineSeatFlat";
+import { Fade } from "react-reveal";
+import { DropzoneArea } from "material-ui-dropzone";
+import "./body.css";
+import Confirm from "src/views/alertComponents/Confirm";
+import AddInformer from "src/views/informer/AddInformer";
+import { saveAs } from "file-saver";
+import axios from "axios";
+import Authenticate from "src/Authenticate";
+import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 
 const DonateBody = (props) => {
-    return (
-        <div>
-            <Confirm
-                show = {false}
-            />
-            <Fade> 
-                <Paper className = "p-4 my-2" >
-                    <CRow>
-                        <CCol sm = "1">
-                            <AirlineSeatFlatIcon style = {{fontSize: 70, color: '#0B9C65'}} />
-                        </CCol>
-                        <CCol>
-                            <h4> Please fill this form before you proceed to donate your body after death. </h4> 
-                            <p>
-                                We welcome voluntory non remunerated donors.
-                            </p>
-                        </CCol>
-                    </CRow>
-                </Paper>    
-                <Paper className = "p-3">
-                    <h3> You can donate your body in two methods from our site! </h3>
-                    <CBadge color = "primary"> Method 1 </CBadge>
-                    <h5> Donate your body to a university after death (the recommended way to donate a body): </h5>
-                    <ul>
-                        <li> Colombo University: <a href = "https://med.cmb.ac.lk/anatomy/body-donation/"> Click here! </a> </li>
-                        <li> Peradeniya University: <a href = "https://med.pdn.ac.lk/departments/anatomy/bodydonation.php"> Click here! </a> </li>
-                        <li> Sri Jayawardanapura: <a href = "http://www.medical.sjp.ac.lk/downloads/body-donation-form/Body%20Donation%20Form%20-%20English.pdf"> Click here!</a></li>
-                    </ul>
-                    <p className = "p-3">
-                        <Button color = "primary " variant = "contained"> Proceed with method 1 </Button>
-                    </p>
+  const [hideIdentity, setHideIdentity] = useState(false);
+  const [showDonation, setShowDonation] = useState(false);
+  const [inputData, setInputData] = useState({
+    description: "none",
+    bloodGroup: "",
+    aditionalNumber: "",
+  });
+  const [agreementForm, setAgreementForm] = useState(null);
+  const [hospitalForm, setHospitalForm] = useState(null);
+  const [error, setError] = useState(false);
+  const [variant, setVariant] = useState("success");
+  const [message, setMessage] = useState(
+    "Then fill the form to add an informer"
+  );
+  const history = useHistory();
+  const user = useSelector((state) => state.user);
 
-                    <CBadge color = "primary"> Method 2 </CBadge>
-                    <h5> Donate through Care-x: </h5>
+  const setInputDetails = (e) => {
+    setInputData((d) => ({ ...d, [e.target.name]: e.target.value }));
+  };
 
-                    <p className = "px-4">
-                        Please download the following agreement form and fill all the fields.
-                        <Button variant="contained" className = "mx-3" color = "danger"> Download </Button>
-                    </p>
+  const downloadAgreement = () => {
+    axios
+      .post(
+        process.env.REACT_APP_SERVER + "/organ-agreement-form",
+        {},
+        { ...Authenticate.header(), responseType: "blob" }
+      )
+      .then((response) => {
+        const pdfBlob = new Blob([response.data]);
+        saveAs(pdfBlob, `organDonationForm.pdf`);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
 
-                    <p className = "px-4">
-                        <strong> Take a photo of your hand filled agreement form and attach a certificate from the nearest hospital and upload. </strong>
-                    </p>
+  const handleAgreementUpload = (file) => {
+    setAgreementForm(file[0]);
+  };
 
-                    <div className = "box-outlined">
-                        <CRow>
-                            <CCol sm="5">
-                                <DropzoneArea
-                                    onChange={(file)=>console.log(file)}
-                                    acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
-                                    maxFileSize={5000000}
-                                    filesLimit = {1}
-                                    dropzoneText={"Agreement"}
-                                />
-                            </CCol>
-                            <CCol sm="5">
-                                <DropzoneArea
-                                    onChange={(file)=>console.log(file)}
-                                    acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
-                                    maxFileSize={5000000}
-                                    filesLimit = {1}
-                                    dropzoneText={"Hospital Certificate"}
-                                />
-                            </CCol>
-                        </CRow>
-                    </div>
+  const handleHospitalUpload = (file) => {
+    setHospitalForm(file[0]);
+  };
 
-                    <center>
-                        <CBadge color = "success" className = "p-2 my-4"> Assign an informer: <br />(Truted person to inform availability) </CBadge>
-                    </center>
+  const saveBodyDonation = () => {
+    var formdata = new FormData();
+    // formdata.append("donateData", donateData);
+    formdata.append("bloodGroup", inputData.bloodGroup);
+    formdata.append("aditionalNumber", inputData.aditionalNumber);
+    formdata.append("bloodGroup", inputData.bloodGroup);
+    formdata.append("agreementForm", agreementForm);
+    formdata.append("hospitalForm", hospitalForm);
 
-                    <br/>
-                    <CLabel className = "mx-4"> 1. Full Name of the informer. </CLabel>
-                    <CInput type = "text" style = {{maxWidth: 500}} />
+    formdata.append("hideIdentity", hideIdentity);
+    axios
+      .post(
+        process.env.REACT_APP_SERVER + "/add-body-donation",
+        formdata,
+        Authenticate.header()
+      )
+      .then((response) => {
+        console.loge(response.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
 
-                    <br/>
-                    <CLabel className = "mx-4"> 2. Address. </CLabel>
-                    <CInput type = "text" style = {{maxWidth: 500}} />
+  return (
+    <div>
+      <Confirm show={false} />
+      <Fade>
+        <Paper className="p-4 my-2">
+          <CRow>
+            <CCol sm="1">
+              <AirlineSeatFlatIcon style={{ fontSize: 70, color: "#0B9C65" }} />
+            </CCol>
+            <CCol>
+              <h4>
+                Please fill this form before you proceed to donate your body
+                after death.
+              </h4>
+              <p>We welcome voluntory non remunerated donors.</p>
+            </CCol>
+          </CRow>
+        </Paper>
+        <Paper className="p-3">
+          <h3> You can donate your body in two methods from our site! </h3>
+          <CBadge color="primary"> Method 1 </CBadge>
+          <h5>
+            Donate your body to a university after death (the recommended way to
+            donate a body):
+          </h5>
+          <ul>
+            <li>
+              Colombo University:
+              <a href="https://med.cmb.ac.lk/anatomy/body-donation/">
+                Click here!
+              </a>
+            </li>
+            <li>
+              Peradeniya University:
+              <a href="https://med.pdn.ac.lk/departments/anatomy/bodydonation.php">
+                Click here!
+              </a>
+            </li>
+            <li>
+              Sri Jayawardanapura:
+              <a href="http://www.medical.sjp.ac.lk/downloads/body-donation-form/Body%20Donation%20Form%20-%20English.pdf">
+                Click here!
+              </a>
+            </li>
+          </ul>
 
-                    <br/>
-                    <CLabel className = "mx-4"> 3. NIC. </CLabel>
-                    <CInput type = "text" style = {{maxWidth: 500}} />
+          <p className="p-3 text-center">
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => setShowDonation(!showDonation)}
+            >
+              {!showDonation ? "Proceed to donate with the community" : "Hide"}
+            </Button>
+          </p>
+          {showDonation ? (
+            <div>
+              <hr />
+              <CBadge color="primary"> Method 2 </CBadge>
+              <br />
+              <br />
+              <h5> Donate through Care-x: </h5>
+              <br />
+              <CLabel> 1. Blood Group </CLabel>
+              <Select
+                value={inputData.bloodGroup}
+                onChange={setInputDetails}
+                label="Blood Group"
+                variant="outlined"
+                className="mx-3"
+                name="bloodGroup"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={"A+"}>A+</MenuItem>
+                <MenuItem value={"A-"}>A-</MenuItem>
+                <MenuItem value={"AB+"}>AB+</MenuItem>
+                <MenuItem value={"AB-"}>AB-</MenuItem>
+                <MenuItem value={"O+"}>O+</MenuItem>
+                <MenuItem value={"O-"}>O-</MenuItem>
+              </Select>
 
-                    <br />
-                    <CLabel className = "mx-4"> 4. Gender </CLabel>
-                    <Select
-                        // value={age}
-                        // onChange={handleChange}
-                        label="Blood Group"
-                        variant = "outlined"
-                        className = "mx-3"
-                    >
-                        <MenuItem value=""> <em>None</em> </MenuItem>
-                        <MenuItem value={"Male"}>Male</MenuItem>
-                        <MenuItem value={"Female"}>Female</MenuItem>
-                    </Select>
+              <br />
+              <CLabel> 3. Contact numbers. </CLabel>
+              <CInput
+                type="number"
+                value={user.data.telephone}
+                onChange={() => {}}
+                style={{ maxWidth: 500 }}
+                disabled
+                className="mx-3"
+              />
+              <span className="mx-3">
+                {" "}
+                Additional Contact Number: (eg: 94777xxxxxx)
+              </span>
+              <CInput
+                type="number"
+                style={{ maxWidth: 500 }}
+                value={inputData.aditionalNumber}
+                onChange={setInputDetails}
+                name="aditionalNumber"
+                className="mx-3"
+              />
 
-                    <br/>
-                    <br/>
-                    <CLabel className = "mx-4"> 5. Telephone. </CLabel>
-                    <CInput type = "number" style = {{maxWidth: 500}}/>
+              <br />
+              <CLabel> 4. Description (Optional) </CLabel>
+              <CTextarea
+                rows={5}
+                style={{ maxWidth: 500 }}
+                value={inputData.description}
+                onChange={setInputDetails}
+                name="description"
+                className="mx-3"
+              />
 
-                    <br/>
-                    <CLabel className = "mx-4"> 6. Date of Birth. </CLabel>
-                    <CInput type = "date" style = {{maxWidth: 500}}/>
+              <p className="px-4">
+                Please download the following agreement form and fill all the
+                fields.
+                <Button
+                  variant="contained"
+                  onClick={downloadAgreement}
+                  className="mx-3"
+                  color="danger"
+                >
+                  Download
+                </Button>
+              </p>
 
-                    <br />
-                    <p className = "mx-4 text-danger">
-                        <strong> Note: </strong> <br />Informers will have the ablity to log into the account by giving the email and password given by you in here to update the availablity of the cadaver to the system.
-                    </p>
-                    <br/>
-                    <CLabel className = "mx-4"> 7. Email. </CLabel>
-                    <CInput type = "email" style = {{maxWidth: 400}} />
+              <p className="px-4">
+                <strong>
+                  Take a photo of your hand filled agreement form and attach a
+                  certificate from the nearest hospital and upload.
+                </strong>
+              </p>
 
-                    <br />
-                    <CLabel className = "mx-4"> 8. Password. </CLabel>
-                    <CInput type = "password" style = {{maxWidth: 400}}/>
+              <div className="box-outlined">
+                <CRow>
+                  <CCol sm="5">
+                    <DropzoneArea
+                      onChange={handleAgreementUpload}
+                      acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
+                      maxFileSize={5000000}
+                      filesLimit={1}
+                      dropzoneText={"Agreement"}
+                    />
+                  </CCol>
+                  <CCol sm="5">
+                    <DropzoneArea
+                      onChange={handleHospitalUpload}
+                      acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
+                      maxFileSize={5000000}
+                      filesLimit={1}
+                      dropzoneText={"Hospital Certificate"}
+                    />
+                  </CCol>
+                </CRow>
+              </div>
 
-                    <br/>
-                    <CLabel className = "mx-4"> 9. Re-Enter Password. </CLabel>
-                    <CInput type = "password" style = {{maxWidth: 400}}/>
+              <p className="box-outlined p-3">
+                <small>
+                  <strong> Sources: </strong> <br />
+                  <cite>
+                    https://slja.sljol.info/articles/10.4038/slja.v27i2.8446/galley/6370/download/
+                  </cite>
+                  <br />
+                  <cite>
+                    https://slja.sljol.info/articles/abstract/10.4038/slja.v27i2.8446/
+                  </cite>
+                  <br />
+                  <cite>
+                    https://www.government.nl/topics/organ-tissue-donation/question-and-answer/if-i-am-a-registered-donor-what-will-happen-to-my-body-after-my-death
+                  </cite>
+                  <br />
+                  <cite>
+                    https://www.government.nl/topics/organ-tissue-donation/question-and-answer/donate-organ-tissue-while-alive
+                  </cite>
+                  <br />
+                  <cite>
+                    https://slja.sljol.info/articles/10.4038/slja.v27i2.8446/galley/6370/download/
+                  </cite>
+                </small>
+              </p>
 
-                    <CLabel className = "mx-3 px-4">
-                        <Checkbox   
-                            checked={true}
-                            onChange={()=>""}
-                            color="primary"
-                        />
-                        I trust this person. (you can delete, edit, or modify this person later)
-                    </CLabel>
-                    <CLabel className = "mx-3 px-4">
-                        <Checkbox   
-                            checked={true}
-                            onChange={()=>""}
-                            color="primary"
-                        />
-                        I agree to donate my organs according to the information given above.
-                    </CLabel>
-                    <CLabel className = "mx-3 px-4">
-                        <Checkbox   
-                            checked={true}
-                            onChange={()=>""}
-                            color="primary"
-                        />
-                        I like to show my identity in the system and posts regarding organ donation
-                    </CLabel>
+              <br />
+              <br />
+              <br />
+              <CLabel className="mx-3 px-4">
+                <Checkbox
+                  checked={hideIdentity}
+                  onClick={() => setHideIdentity((h) => !h)}
+                  color="primary"
+                />
+                Hide my identity when displaying the service in the community.
+              </CLabel>
+              <br />
+              <CLabel className="mx-3 px-4">
+                <Checkbox checked={true} onChange={() => ""} color="primary" />I
+                agree to donate my organs according to the information given
+                above.
+              </CLabel>
+              <br />
+              <br />
+              <br />
 
-                    <br />
+              <p align="right">
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  className="mx-3"
+                  onClick={() => props.history.push("/services/donate")}
+                >
+                  Reset and go back
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={saveBodyDonation}
+                >
+                  Save
+                </Button>
+              </p>
+              <AddInformer />
+            </div>
+          ) : (
+            ""
+          )}
 
-
-                    <p className = "box-outlined p-3">
-                        <small>
-                            <strong> Sources: </strong> <br />
-
-                            <cite> https://slja.sljol.info/articles/10.4038/slja.v27i2.8446/galley/6370/download/ </cite>
-                            <br /> <cite> https://slja.sljol.info/articles/abstract/10.4038/slja.v27i2.8446/ </cite>
-                            <br /> <cite> https://www.government.nl/topics/organ-tissue-donation/question-and-answer/if-i-am-a-registered-donor-what-will-happen-to-my-body-after-my-death </cite>
-                            <br /> <cite> https://www.government.nl/topics/organ-tissue-donation/question-and-answer/donate-organ-tissue-while-alive </cite>
-                            <br /> <cite> https://slja.sljol.info/articles/10.4038/slja.v27i2.8446/galley/6370/download/ </cite>
-                        </small>
-                    </p>
-
-
-                    <br />
-                    <br />
-                    <br />
-                    <p align = "right" >
-                        <Button color = "secondary" variant = "outlined" className = "mx-3" onClick = {()=>props.history.push('/services/donate')}> Reset and go back </Button>
-                        <Button color = "primary" variant = "contained"> Proceed with method 2 </Button>
-                    </p>
-
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-
-                </Paper>
-            </Fade>
-        </div>
-    )
-}
+          <br />
+          <br />
+          <br />
+          <br />
+        </Paper>
+      </Fade>
+    </div>
+  );
+};
 
 export default DonateBody;

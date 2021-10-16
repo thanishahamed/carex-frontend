@@ -60,14 +60,13 @@ export default function AddInformer() {
       )}
       {saved ? (
         <Slide right>
-          {" "}
-          <AddingSuccess />{" "}
+          <AddingSuccess />
         </Slide>
       ) : (
         <form name="frm" onSubmit={saveInformer}>
-          <br />
+          <hr />
           <h4> Fill this form to add an informer </h4>
-
+          <br />
           <CLabel> 1. Full Name of the informer. </CLabel>
           <CInput
             type="text"
@@ -108,8 +107,7 @@ export default function AddInformer() {
             className="mx-3"
           >
             <MenuItem value="">
-              {" "}
-              <em>None</em>{" "}
+              <em>None</em>
             </MenuItem>
             <MenuItem value={"Male"}>Male</MenuItem>
             <MenuItem value={"Female"}>Female</MenuItem>
@@ -181,8 +179,7 @@ export default function AddInformer() {
 
           <p align="right">
             <Button variant="contained" type="submit" color="primary">
-              {" "}
-              Save Informer{" "}
+              Save Informer
             </Button>
           </p>
         </form>

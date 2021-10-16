@@ -4,7 +4,7 @@ import DonationDisplay from "./DonationDisplay";
 
 export default function DonorsInformation() {
   const [data, setData] = useState({
-    organDonation: [],
+    organDonation: [{ organDonation: {} }],
     bodyDonation: [],
     user: {},
   });
@@ -18,7 +18,7 @@ export default function DonorsInformation() {
       })
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
+        console.log("organnn", response.data.organDonation[0].organ_donation);
       })
       .catch((error) => {
         console.log(error.response);
@@ -34,7 +34,7 @@ export default function DonorsInformation() {
         <li>NIC: {data.user.nic}</li>
         <li>Telephone: {data.user.telephone}</li>
       </ul>
-      {data.organDonation.length > 0 ? (
+      {/* {data.organDonation.length > 0 ? (
         <DonationDisplay data={data.organDonation[0].organ_donation} />
       ) : (
         ""
@@ -43,7 +43,8 @@ export default function DonorsInformation() {
         <DonationDisplay data={data.bodyDonation[0].body_donation} />
       ) : (
         ""
-      )}
+      )} */}
+      <DonationDisplay data={data.organDonation[0].organ_donation} />
       <hr />
     </div>
   );
