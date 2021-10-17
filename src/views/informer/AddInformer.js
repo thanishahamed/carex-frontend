@@ -6,6 +6,8 @@ import { Fade, Slide } from "react-reveal";
 import Authenticate from "src/Authenticate";
 import SnackBar from "../alertComponents/SnackBar";
 import AddingSuccess from "./components/AddingSuccess";
+import swal from "sweetalert";
+import { useHistory } from "react-router";
 
 export default function AddInformer() {
   const [data, setData] = useState({});
@@ -16,7 +18,7 @@ export default function AddInformer() {
   const [message, setMessage] = useState(
     "Then fill the form to add an informer"
   );
-
+  const history = useHistory();
   const handleChange = (e) => {
     setData((d) => ({ ...d, [e.target.name]: e.target.value }));
   };
@@ -37,6 +39,9 @@ export default function AddInformer() {
         setMessage("Informer added succefully!");
         setVariant("success");
         // setFired(f=>!f);
+        swal("Informer Added!", "We appreciate your service!", "success").then(
+          (data) => history.push("/")
+        );
       })
       .catch((error) => {
         if (error.response.data.errors) {
@@ -47,6 +52,16 @@ export default function AddInformer() {
           setError(true);
           // setFired(f=>!f);
         } else {
+          let errorMessage = "'informers_nic_unique'";
+          if (error.response.data.message.split(" ")[10] === errorMessage) {
+            setMessage("Duplicate NIC found");
+            setVariant("warning");
+            setError(true);
+          } else {
+            setMessage("Some errors found! Please view the console!");
+            setVariant("warning");
+            setError(true);
+          }
           console.log(error.response);
         }
       });

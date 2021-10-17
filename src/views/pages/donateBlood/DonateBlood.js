@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Authenticate from "src/Authenticate";
 import { useHistory } from "react-router";
+import swal from "sweetalert";
 import SnackBar from "src/views/alertComponents/SnackBar";
 
 const DonateBlood = (props) => {
@@ -35,9 +36,9 @@ const DonateBlood = (props) => {
         Authenticate.header()
       )
       .then((response) => {
-        // console.log(response.data);
-        history.push("/");
-        window.scrollTo(0, 0);
+        swal("Contributed!", "We appreciate your service!", "success").then(
+          (data) => history.push("/")
+        );
       })
       .catch((error) => {
         if (error.response.data.errors) {

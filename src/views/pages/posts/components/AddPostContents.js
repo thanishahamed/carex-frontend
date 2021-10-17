@@ -16,6 +16,7 @@ import axios from "axios";
 import Authenticate from "src/Authenticate";
 import { useSelector } from "react-redux";
 import SnackBar from "src/views/alertComponents/SnackBar";
+import swal from "sweetalert";
 
 export default function AddPostContents(props) {
   const user = useSelector((state) => state.user);
@@ -67,16 +68,28 @@ export default function AddPostContents(props) {
       setPosting(false);
       props.setShowPostModal(false);
     } catch (error) {
-      if (error.response.data) {
-        let errorsNew = Object.values(error.response.data.errors);
-        setMessage(errorsNew[0][0]);
-        setVariant("warning");
-        setFired((f) => !f);
-        setPosting(false);
+      if (error.response.data.errors) {
+        let message = Object.values(error.response.data.errors)[0][0];
+        swal({
+          title: " ",
+          icon: "warning",
+          text: message,
+          className: "alert-warning",
+          button: false,
+          timer: 3000,
+        });
       } else {
-        console.log(error.response);
-        setPosting(false);
+        swal({
+          title: "Something went wrong!",
+          icon: "warning",
+          text: "Organ donation not updated correctly! Please try again later!",
+          className: "alert-warning",
+          button: false,
+          timer: 3000,
+        });
       }
+      setPosting(false);
+      console.log(error.response);
     }
   };
 

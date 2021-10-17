@@ -15,6 +15,8 @@ import VoiceAssistant from "../voiceRecognition/VoiceAssitant";
 import Authenticate from "src/Authenticate";
 import { useSelector } from "react-redux";
 import SLNews from "./components/SLNews";
+import ManageCookies from "src/ManageCookies";
+import swal from "sweetalert";
 
 const Posts = (props) => {
   const history = useHistory();
@@ -139,7 +141,6 @@ const Posts = (props) => {
               </Button>
             </div>
             <br />
-
             <UrgentInfo />
           </Fade>
           <AddPost loadData={loadData} />
