@@ -30,8 +30,8 @@ const styles = {
 
 const Login = (props) => {
   const history = useHistory();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("carexsocialservices@gmail.com ");
+  const [password, setPassword] = useState("12345678");
   const [fired, setFired] = useState(false);
   const [variant, setVariant] = useState("success");
   const [message, setMessage] = useState("Please login to continue!");
