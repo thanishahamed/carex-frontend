@@ -6,8 +6,10 @@ import { Fade, Slide } from "react-reveal";
 import Authenticate from "src/Authenticate";
 import SnackBar from "../alertComponents/SnackBar";
 import AddingSuccess from "./components/AddingSuccess";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { loadUserData } from "src/store/actions/user";
 
 export default function AddInformer() {
   const [data, setData] = useState({});
@@ -18,6 +20,7 @@ export default function AddInformer() {
   const [message, setMessage] = useState(
     "Then fill the form to add an informer"
   );
+  const dispatch = useDispatch();
   const history = useHistory();
   const handleChange = (e) => {
     setData((d) => ({ ...d, [e.target.name]: e.target.value }));
@@ -38,10 +41,27 @@ export default function AddInformer() {
         setError(false);
         setMessage("Informer added succefully!");
         setVariant("success");
-        // setFired(f=>!f);
-        swal("Informer Added!", "We appreciate your service!", "success").then(
-          (data) => history.push("/")
-        );
+        swal
+          .fire({
+            title: "Informer Added!",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Go to home!",
+            denyButtonText: `Stay on this page!`,
+            // timer: 2000,
+            // timerProgressBar: true,
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              // swal.fire("Saved!", "", "success");
+              history.push("/");
+            } else if (result.isDenied) {
+              // swal.fire(" Deleted!", "", "info");
+              dispatch(loadUserData());
+            } else {
+              dispatch(loadUserData());
+            }
+          });
       })
       .catch((error) => {
         if (error.response.data.errors) {
@@ -66,6 +86,7 @@ export default function AddInformer() {
         }
       });
   };
+
   return (
     <div className="mx-2 px-2">
       {error ? (

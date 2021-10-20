@@ -102,7 +102,7 @@ const PostContainer = (props) => {
                 ? "organDonation"
                 : post.category === "blood donation"
                 ? "bloodDonation"
-                : post.category === "educational scholarship"
+                : post.category === "scholarship"
                 ? "educational"
                 : post.category === "study fund"
                 ? "studyFund"

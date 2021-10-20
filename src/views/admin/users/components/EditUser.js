@@ -1,17 +1,22 @@
 import { CInput, CLabel, CTextarea } from "@coreui/react";
 import { Button, MenuItem, Paper, Select } from "@material-ui/core";
+import { Delete, DeleteForever, SaveRounded } from "@material-ui/icons";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router";
 import Authenticate from "src/Authenticate";
+import { loadUserData } from "src/store/actions/user";
+import Swal from "sweetalert2";
 
 export default function EditUser(props) {
   const { userId } = useParams();
   const [id, setId] = useState("");
   const [data, setData] = useState({});
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (userId === undefined) {
@@ -44,6 +49,55 @@ export default function EditUser(props) {
       )
       .then((response) => setData(response.data))
       .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
+  const confirmDeleteUser = (id) => {
+    Swal.fire({
+      text:
+        "Do you want to delete this account with ID " +
+        id +
+        "? \n Deleting this user will remove all the data related to the user and will not be recovered. Are your sure?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+      icon: "question",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteUser(id);
+      } else if (result.isDenied) {
+        // dispatch(loadUserData());
+      }
+    });
+  };
+
+  const deleteUser = (infId) => {
+    axios
+      .delete(
+        process.env.REACT_APP_SERVER + "/destroy-user/" + infId,
+        Authenticate.header()
+      )
+      .then((response) => {
+        Swal.fire({
+          title: "Deleted Successfully!",
+          buttonsStyling: "none",
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        Authenticate.setCookie("token", "", 0);
+        history.push("/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Deleting Failed!",
+          text: "Something went wrong. " + error.response.data.message,
+          className: "alert-danger",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
         console.log(error.response);
       });
   };
@@ -185,16 +239,16 @@ export default function EditUser(props) {
         </Button>
         <br />
         <div className="text-right">
-          {user.data.role === "admin" ? (
-            <Button variant="contained" color="secondary">
-              Delete
-            </Button>
-          ) : (
-            ""
-          )}
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => confirmDeleteUser(user.data.id)}
+          >
+            <DeleteForever />
+          </Button>
 
-          <Button variant="contained" color="primary" onClick={updateUser}>
-            Save
+          <Button variant="outlined" color="primary" onClick={updateUser}>
+            <SaveRounded />
           </Button>
         </div>
       </Paper>

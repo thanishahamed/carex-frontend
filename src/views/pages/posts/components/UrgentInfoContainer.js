@@ -79,7 +79,7 @@ export default function UrgentInfoContainer(props) {
               ? styles.organ
               : props.post.category === "blood donation"
               ? styles.blood
-              : props.post.category === "educational scholarship"
+              : props.post.category === "scholarship"
               ? styles.educational
               : props.post.category === "study fund"
               ? styles.study

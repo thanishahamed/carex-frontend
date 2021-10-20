@@ -44,14 +44,21 @@ export default function ListServices(props) {
 
   const getBadge = (status) => {
     switch (status) {
-      case "Active":
+      case "available":
         return "success";
-      case "Inactive":
-        return "secondary";
-      case "Pending":
+      case "approved":
+        return "success";
+      case "approved-nf":
+        return "success";
+      case "informed":
+        return "info";
+      case "pending":
         return "warning";
-      case "Banned":
+      case "pending verification":
+        return "warning";
+      case "closed":
         return "danger";
+
       default:
         return "primary";
     }

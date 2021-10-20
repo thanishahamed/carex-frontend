@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Paper,
@@ -10,6 +10,7 @@ import {
   TableRow,
   Container,
   TableFooter,
+  IconButton,
 } from "@material-ui/core";
 import { Fade } from "react-reveal";
 import { CCol, CInput, CLabel, CRow } from "@coreui/react";
@@ -20,9 +21,15 @@ import { useHistory } from "react-router";
 import { loadUserData } from "src/store/actions/user";
 import EditUser from "src/views/admin/users/components/EditUser";
 import { Alert } from "@material-ui/lab";
+import AddInformerInternal from "./components/AddInformerInternal";
+import { Delete, Edit, ShowChart, VisibilitySharp } from "@material-ui/icons";
+import Swal from "sweetalert2";
+import axios from "axios";
+import Authenticate from "src/Authenticate";
 
 export default function Profile() {
   const user = useSelector((state) => state.user);
+  const [addInformerModal, setAddInformerModal] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -30,6 +37,93 @@ export default function Profile() {
     dispatch(loadUserData());
   }, []);
 
+  const confirmDeleteInformer = (id) => {
+    Swal.fire({
+      text: "Do you want to delete informer with ID " + id + "?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteInformer(id);
+      } else if (result.isDenied) {
+        // dispatch(loadUserData());
+      }
+    });
+  };
+
+  const confirmDeleteContribution = (id) => {
+    Swal.fire({
+      text: "Do you want to delete the contribution with ID " + id + "?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletePost(id);
+      } else if (result.isDenied) {
+        // dispatch(loadUserData());
+      }
+    });
+  };
+
+  const deletePost = (infId) => {
+    axios
+      .delete(
+        process.env.REACT_APP_SERVER + "/destroy-post/" + infId,
+        Authenticate.header()
+      )
+      .then((response) => {
+        Swal.fire({
+          title: "Deleted Successfully!",
+          buttonsStyling: "none",
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        dispatch(loadUserData());
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Deleting Failed!",
+          text: "Something went wrong. " + error.response.data.message,
+          className: "alert-danger",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        console.log(error.response);
+      });
+  };
+
+  const deleteInformer = (infId) => {
+    axios
+      .delete(
+        process.env.REACT_APP_SERVER + "/destroy-informer/" + infId,
+        Authenticate.header()
+      )
+      .then((response) => {
+        Swal.fire({
+          title: "Deleted Successfully!",
+          buttonsStyling: "none",
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        dispatch(loadUserData());
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Deleting Failed!",
+          text: "Something went wrong. " + error.response.data.message,
+          className: "alert-danger",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        console.log(error.response);
+      });
+  };
   return (
     <div>
       <Fade>
@@ -94,7 +188,7 @@ export default function Profile() {
                           </TableCell>
                           <TableCell align="left">{post.title}</TableCell>
                           <TableCell align="right">
-                            <Button
+                            <IconButton
                               size="small"
                               variant="outlined"
                               color="primary"
@@ -104,28 +198,27 @@ export default function Profile() {
                                 )
                               }
                             >
-                              {" "}
-                              View{" "}
-                            </Button>
-                            <Button
-                              size="small"
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => {}}
-                            >
-                              {" "}
-                              Hide{" "}
-                            </Button>
+                              <VisibilitySharp />
+                            </IconButton>
 
-                            <Button
+                            <IconButton
                               size="small"
                               variant="outlined"
                               color="primary"
                               onClick={() => {}}
                             >
-                              {" "}
-                              Edit{" "}
-                            </Button>
+                              <Edit />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              variant="outlined"
+                              color="secondary"
+                              onClick={() => {
+                                confirmDeleteContribution(post.id);
+                              }}
+                            >
+                              <Delete />
+                            </IconButton>
                           </TableCell>
                         </TableRow>
                       );
@@ -211,9 +304,13 @@ export default function Profile() {
             informers will be listed in here.{" "}
           </CLabel>
           <hr />
-          <Button size="small" variant="outlined" color="primary">
-            {" "}
-            Add new informer{" "}
+          <Button
+            size="small"
+            variant="outlined"
+            color="primary"
+            onClick={() => setAddInformerModal(true)}
+          >
+            Add new informer
           </Button>
           <TableContainer component={Paper}>
             <Table aria-label="simple table">
@@ -236,7 +333,7 @@ export default function Profile() {
                             {informer.full_name}
                           </TableCell>
                           <TableCell align="right">
-                            <Button
+                            <IconButton
                               size="small"
                               variant="outlined"
                               color="primary"
@@ -246,19 +343,27 @@ export default function Profile() {
                                 )
                               }
                             >
-                              {" "}
-                              View{" "}
-                            </Button>
+                              <VisibilitySharp />
+                            </IconButton>
 
-                            <Button
+                            <IconButton
                               size="small"
                               variant="outlined"
                               color="primary"
                               onClick={() => {}}
                             >
-                              {" "}
-                              Edit{" "}
-                            </Button>
+                              <Edit />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              variant="outlined"
+                              color="secondary"
+                              onClick={() => {
+                                confirmDeleteInformer(informer.id);
+                              }}
+                            >
+                              <Delete />
+                            </IconButton>
                           </TableCell>
                         </TableRow>
                       );
@@ -331,6 +436,10 @@ export default function Profile() {
           </TableContainer>
         </Paper> */}
       </Fade>
+      <AddInformerInternal
+        addInformerModal={addInformerModal}
+        setAddInformerModal={setAddInformerModal}
+      />
     </div>
   );
 }
