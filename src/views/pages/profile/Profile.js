@@ -30,6 +30,8 @@ import Authenticate from "src/Authenticate";
 export default function Profile() {
   const user = useSelector((state) => state.user);
   const [addInformerModal, setAddInformerModal] = useState(false);
+  const [editInformer, setEditInformer] = useState(false);
+  const [informerId, setInformerId] = useState(0);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -156,8 +158,6 @@ export default function Profile() {
                   </Alert>
                 )}
               </div>
-              {/* <h5> Contributions: 0 </h5>
-              <h5> Posts: 0 </h5> */}
             </CCol>
             <CCol sm="8">
               <EditUser id={user.data.id} />
@@ -230,71 +230,6 @@ export default function Profile() {
           </TableContainer>
         </Paper>
 
-        {/* <Paper className="p-4 my-3">
-          <strong> Received Services </strong>
-          <hr />
-          <TableContainer component={Paper}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell align="left">Service</TableCell>
-                  <TableCell align="right">Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {user.data.posts
-                  ? user.data.posts.map((post) => {
-                      return (
-                        <TableRow key={post.id}>
-                          <TableCell component="th" scope="row">
-                            {post.id}
-                          </TableCell>
-                          <TableCell align="left">{post.title}</TableCell>
-                          <TableCell align="right">
-                            <Button
-                              size="small"
-                              variant="outlined"
-                              color="primary"
-                              onClick={() =>
-                                history.push(
-                                  "/services/explore/service/" + post.id
-                                )
-                              }
-                            >
-                              {" "}
-                              View{" "}
-                            </Button>
-                            <Button
-                              size="small"
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => {}}
-                            >
-                              {" "}
-                              Hide{" "}
-                            </Button>
-
-                            <Button
-                              size="small"
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => {}}
-                            >
-                              {" "}
-                              Edit{" "}
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })
-                  : ""}
-              </TableBody>
-              <TableFooter id="informers"></TableFooter>
-            </Table>
-          </TableContainer>
-        </Paper> */}
-
         <Paper className="p-4 my-3">
           <strong> Informers </strong>
           <br />
@@ -308,7 +243,10 @@ export default function Profile() {
             size="small"
             variant="outlined"
             color="primary"
-            onClick={() => setAddInformerModal(true)}
+            onClick={() => {
+              setAddInformerModal(true);
+              setEditInformer(false);
+            }}
           >
             Add new informer
           </Button>
@@ -337,20 +275,11 @@ export default function Profile() {
                               size="small"
                               variant="outlined"
                               color="primary"
-                              onClick={() =>
-                                history.push(
-                                  "/services/explore/service/" + informer.id
-                                )
-                              }
-                            >
-                              <VisibilitySharp />
-                            </IconButton>
-
-                            <IconButton
-                              size="small"
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => {}}
+                              onClick={() => {
+                                setInformerId(informer.id);
+                                setEditInformer(true);
+                                setAddInformerModal(true);
+                              }}
                             >
                               <Edit />
                             </IconButton>
@@ -374,71 +303,12 @@ export default function Profile() {
             </Table>
           </TableContainer>
         </Paper>
-
-        {/* <Paper className="p-4 my-3">
-          <strong> Comments </strong>
-          <hr />
-          <TableContainer component={Paper}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell align="left">Service</TableCell>
-                  <TableCell align="right">Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow key={1}>
-                  <TableCell component="th" scope="row">
-                    {1}
-                  </TableCell>
-                  <TableCell align="left">{"Blood Donation"}</TableCell>
-                  <TableCell align="right">
-                    <Button size="small" variant="outlined" color="primary">
-                      {" "}
-                      View{" "}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-              <TableFooter id="likes"></TableFooter>
-            </Table>
-          </TableContainer>
-        </Paper>
-
-        <Paper className="p-4 my-3">
-          <strong> Likes </strong>
-          <hr />
-          <TableContainer component={Paper}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell align="left">Service</TableCell>
-                  <TableCell align="right">Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow key={1}>
-                  <TableCell component="th" scope="row">
-                    {1}
-                  </TableCell>
-                  <TableCell align="left">{"Blood Donation"}</TableCell>
-                  <TableCell align="right">
-                    <Button size="small" variant="outlined" color="primary">
-                      {" "}
-                      View{" "}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper> */}
       </Fade>
       <AddInformerInternal
         addInformerModal={addInformerModal}
         setAddInformerModal={setAddInformerModal}
+        status={editInformer ? "edit" : "add"}
+        informerId={informerId}
       />
     </div>
   );

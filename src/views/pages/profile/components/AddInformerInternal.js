@@ -12,7 +12,7 @@ export default function AddInformerInternal(props) {
       >
         <CModalHeader closeButton> Add Informer </CModalHeader>
         <CModalBody>
-          <AddInformer />
+          <AddInformer informerId={props.informerId} status={props.status} />
         </CModalBody>
       </CModal>
     </div>
