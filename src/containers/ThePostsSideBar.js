@@ -25,6 +25,7 @@ import ProfilePic from "src/views/pages/profile/components/ProfilePic";
 import axios from "axios";
 import { Alert } from "@material-ui/lab";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 const styles = {
   main: {
@@ -111,11 +112,21 @@ const ThePostsSideBar = (props) => {
             ""
           ) : (
             <div style={{ textAlign: "center" }}>
-              {user.data.profile_image === null ? <ProfilePic /> : "Load image"}
+              {user.data.profile_image === null ? (
+                <ProfilePic />
+              ) : (
+                <Link to="/services/profile">
+                  <img
+                    src={user.data.profile_image}
+                    width="90%"
+                    alt="profile"
+                    style={{ borderRadius: 200 }}
+                  />
+                </Link>
+              )}
               <br /> <br />
               <h4> Welcome </h4>
               <h5> {user.data.name} </h5>
-              {console.log(user.data.email_verified_at)}
               <div>
                 {" "}
                 {user.data.email_verified_at !== null ? (

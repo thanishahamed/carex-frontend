@@ -26,6 +26,7 @@ import { Delete, Edit, ShowChart, VisibilitySharp } from "@material-ui/icons";
 import Swal from "sweetalert2";
 import axios from "axios";
 import Authenticate from "src/Authenticate";
+import UpdateProfilePhoto from "./components/UpdateProfilePhoto";
 
 export default function Profile() {
   const user = useSelector((state) => state.user);
@@ -135,7 +136,14 @@ export default function Profile() {
             <CCol sm="3">
               <Paper elevation={3} className="dp-image">
                 {/* <img src = "profile" alt = "profile" /> */}
-                <ProfilePic />
+                {user.data.profile_image ? (
+                  <UpdateProfilePhoto
+                    image={user.data.profile_image}
+                    id={user.data.id}
+                  />
+                ) : (
+                  <ProfilePic />
+                )}
               </Paper>
               <br />
               <br />
@@ -205,7 +213,9 @@ export default function Profile() {
                               size="small"
                               variant="outlined"
                               color="primary"
-                              onClick={() => {}}
+                              onClick={() => {
+                                history.push(`edit/${post.id}/post`);
+                              }}
                             >
                               <Edit />
                             </IconButton>

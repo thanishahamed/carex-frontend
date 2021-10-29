@@ -47,8 +47,41 @@ export default function EditUser(props) {
         data,
         Authenticate.header()
       )
-      .then((response) => setData(response.data))
+      .then((response) => {
+        setData(response.data);
+        Swal.fire({
+          title: "Updated Successfully!",
+          buttonsStyling: "none",
+          showConfirmButton: false,
+          icon: "success",
+          butt: false,
+          timer: 1500,
+          timerProgressBar: true,
+        });
+      })
       .catch((error) => {
+        if (error.response.data) {
+          Swal.fire({
+            title: "Validation Failed!",
+            text: Object.values(error.response.data.errors)[0][0],
+            className: "alert-warning",
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        } else {
+          Swal.fire({
+            title: "Updating Failed!",
+            text: "Something went wrong. " + error.response.data.message,
+            className: "alert-danger",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        }
+
         console.log(error.response);
       });
   };

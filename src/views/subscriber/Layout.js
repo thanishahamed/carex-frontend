@@ -21,6 +21,7 @@ const loading = (
 
 //Page imports
 const Posts = React.lazy(() => import("../pages/posts/Posts"));
+const EditPost = React.lazy(() => import("../pages/posts/components/EditPost"));
 const Donate = React.lazy(() => import("../pages/donate/Donate"));
 const Scholarships = React.lazy(() =>
   import("../pages/scholarship/Scholarships")
@@ -100,6 +101,10 @@ const Layout = () => {
                       <Route
                         path={"/services/profile"}
                         render={(props) => <Profile {...props} />}
+                      />
+                      <Route
+                        path={"/services/edit/:id/post"}
+                        render={(props) => <EditPost {...props} />}
                       />
                       <Route
                         path={"/"}
