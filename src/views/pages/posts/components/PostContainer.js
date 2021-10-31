@@ -136,13 +136,19 @@ const PostContainer = (props) => {
                     />
                   </div>
                 ) : (
-                  <ImageList rowHeight={160} cols={3}>
-                    {post.images.map((item, id) => (
-                      <ImageListItem key={id} cols={id % 3}>
-                        <img src={item.url} />
-                      </ImageListItem>
-                    ))}
-                  </ImageList>
+                  <div>
+                    <ImageList
+                      rowHeight={160}
+                      cols={3}
+                      style={{ justifyContent: "center" }}
+                    >
+                      {post.images.map((item, id) => (
+                        <ImageListItem key={id} cols={id % 3}>
+                          <img src={item.url} />
+                        </ImageListItem>
+                      ))}
+                    </ImageList>
+                  </div>
                 )}
               </div>
               <p align="justify">

@@ -20,6 +20,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Slide, Fade } from "react-reveal";
 import { useHistory } from "react-router";
+import Authenticate from "src/Authenticate";
 import swal from "sweetalert";
 
 export default function Scholarships() {
@@ -41,10 +42,14 @@ export default function Scholarships() {
 
   const saveData = () => {
     axios
-      .post(process.env.REACT_APP_SERVER + "/add-scholarship", {
-        ...inputData,
-        hideIdentity: hideIdentity,
-      })
+      .post(
+        process.env.REACT_APP_SERVER + "/add-scholarship",
+        {
+          ...inputData,
+          hideIdentity: hideIdentity,
+        },
+        Authenticate.header()
+      )
       .then((response) => {
         swal({
           title: "Contribution Added!",

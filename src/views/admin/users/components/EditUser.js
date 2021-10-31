@@ -275,7 +275,7 @@ export default function EditUser(props) {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => confirmDeleteUser(user.data.id)}
+            onClick={() => confirmDeleteUser(userId || user.data.id)}
           >
             <DeleteForever />
           </Button>

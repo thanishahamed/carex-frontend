@@ -5,11 +5,13 @@ import {
   CCollapse,
   CDataTable,
   CLabel,
+  CTextarea,
 } from "@coreui/react";
 import { Button } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Authenticate from "src/Authenticate";
+import Swal from "sweetalert2";
 import ManageRequestInfo from "./ManageRequestInfo";
 
 export default function RequestingPeople(props) {
@@ -66,7 +68,13 @@ export default function RequestingPeople(props) {
         Authenticate.header()
       )
       .then((response) => {
-        console.log(response.data);
+        Swal.fire({
+          showConfirmButton: false,
+          title: "Status Updated!",
+          icon: "success",
+          timer: 1500,
+          timerProgressBar: true,
+        });
       })
       .catch((error) => {
         console.log(error.response);
@@ -180,24 +188,58 @@ export default function RequestingPeople(props) {
           Update Status
         </Button>
       </div>
-      <div style={{ fontSize: 20, padding: 10 }}>
-        <p> Posted By: {post.user.name} </p>
-        <p> NIC: {post.user.nic} </p>
-        <p> Posted Category: {post.category} </p>
-        <p align="justify" style={{ fontSize: 15 }}>
-          Posted Body: {post.body}
-        </p>
-        {post.images.map((image, id) => (
-          <div style={{ textAlign: "center" }}>
-            <img
-              key={id}
-              src={image.url}
-              width="100%"
-              style={{ maxWidth: 500 }}
-              align="center"
-            />
-          </div>
-        ))}
+      <div style={{ fontSize: 15, padding: 10 }}>
+        <table className="table">
+          <tbody>
+            <tr>
+              <th>Posted By</th>
+              <td>: {post.user.name}</td>
+            </tr>
+            <tr>
+              <th>NIC</th>
+              <td>: {post.user.nic}</td>
+            </tr>
+            <tr>
+              <th>Contact Number</th>
+              <td>: {post.user.telephone}</td>
+            </tr>
+            <tr>
+              <th>Gender</th>
+              <td>: {post.user.gender}</td>
+            </tr>
+            <tr>
+              <th>Address</th>
+              <td>: {post.user.address}</td>
+            </tr>
+            <tr>
+              <th>Posted Category</th>
+              <td>: {post.category}</td>
+            </tr>
+            <tr>
+              <th>Content</th>
+              <td>
+                <pre>: {post.body} </pre>
+              </td>
+            </tr>
+            <tr>
+              <th>Images</th>
+              <td>
+                :
+                {post.images.map((image, id) => (
+                  <div style={{ textAlign: "center" }}>
+                    <img
+                      key={id}
+                      src={image.url}
+                      width="100%"
+                      style={{ maxWidth: 500 }}
+                      align="center"
+                    />
+                  </div>
+                ))}
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
         {post.organ_donation ? (
           <div style={{ textAlign: "center" }}>
