@@ -5,8 +5,8 @@ import {
   CCollapse,
   CDataTable,
 } from "@coreui/react";
-import { Button, IconButton } from "@material-ui/core";
-import { Edit, Visibility } from "@material-ui/icons";
+import { Button, Icon, IconButton, ModalManager } from "@material-ui/core";
+import { ChromeReaderModeRounded, Edit, Visibility } from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
@@ -31,6 +31,7 @@ export default function ListServices(props) {
       });
   };
   const handleManageService = (pid) => {
+    console.log(pid);
     setPostId(pid);
     setManageServiceModal(true);
   };
@@ -111,7 +112,7 @@ export default function ListServices(props) {
                   size="small"
                   onClick={() => handleManageService(item.id)}
                 >
-                  <Edit />
+                  <ChromeReaderModeRounded />
                 </IconButton>
               </td>
             );

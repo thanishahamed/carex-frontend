@@ -104,8 +104,13 @@ export default function RequestForm(props) {
           <CInput value={data.address} name="address" onChange={textChange} />
           <br />
           <CLabel>
-            5. Proof Document (Can be a request letter or a certificate from
-            trusted person or hospital with signature)
+            5. Proof Document <br />
+            Example:
+            <ul>
+              <li> Signed letter</li>
+              <li> Medical Report</li>
+              <li> Character Certificate</li>
+            </ul>
           </CLabel>
           <DropzoneArea
             onChange={fileChange}

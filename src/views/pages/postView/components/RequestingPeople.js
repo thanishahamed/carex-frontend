@@ -13,9 +13,12 @@ import React, { useEffect, useState } from "react";
 import Authenticate from "src/Authenticate";
 import Swal from "sweetalert2";
 import ManageRequestInfo from "./ManageRequestInfo";
+import { saveAs } from "file-saver";
+import { useSelector } from "react-redux";
 
 export default function RequestingPeople(props) {
   const data = props.requestedByPeople;
+  const user = useSelector((state) => state.user);
   const [manageModal, setManageModal] = useState(false);
   const [loadedData, setLoadedData] = useState({
     service: {},
@@ -109,9 +112,24 @@ export default function RequestingPeople(props) {
       })
       .catch((error) => {
         console.log(error.response);
+        alert("kjsdhakfjl");
       });
   };
 
+  const getServicesReport = (pId) => {
+    axios
+      .post(
+        process.env.REACT_APP_SERVER + "/get-service-report",
+        { postId: pId },
+        { ...Authenticate.header(), responseType: "blob" }
+      )
+      .then((response) => {
+        const csvBlob = new Blob([response.data]);
+        saveAs(csvBlob, `Services Received Report.csv`);
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error.response));
+  };
   return (
     <div>
       <ManageRequestInfo
@@ -162,32 +180,49 @@ export default function RequestingPeople(props) {
               },
             }}
           />
+
+          <div align="right">
+            <CButton
+              onClick={() => {
+                getServicesReport(props.postId);
+              }}
+              color="info"
+              variant="outline"
+              size="sm"
+            >
+              Download Service Request Report
+            </CButton>
+          </div>
         </div>
       )}
 
       <hr />
 
-      <div align="right">
-        <select
-          value={status}
-          name="status"
-          className="custom-select"
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="approved"> Approved </option>
-          <option value="approved-nf"> Approved-NF</option>
-          <option value="pending verification"> Pending Verification</option>
-          <option value="suspended"> Suspended </option>
-          <option value="closed"> Closed </option>
-        </select>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={approveOrUnApprove}
-        >
-          Update Status
-        </Button>
-      </div>
+      {user.data.role === "admin" ? (
+        <div align="right">
+          <select
+            value={status}
+            name="status"
+            className="custom-select"
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="approved"> Approved </option>
+            <option value="approved-nf"> Approved-NF</option>
+            <option value="pending verification"> Pending Verification</option>
+            <option value="suspended"> Suspended </option>
+            <option value="closed"> Closed </option>
+          </select>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={approveOrUnApprove}
+          >
+            Update Status
+          </Button>
+        </div>
+      ) : (
+        ""
+      )}
       <div style={{ fontSize: 15, padding: 10 }}>
         <table className="table">
           <tbody>
@@ -263,7 +298,6 @@ export default function RequestingPeople(props) {
         ) : (
           ""
         )}
-        {console.log("from the bottom", post)}
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import Authenticate from "src/Authenticate";
+import ManageService from "src/views/admin/services/components/ManageService";
 import Swal from "sweetalert2";
 
 export default function EditPost(props) {
@@ -19,6 +20,8 @@ export default function EditPost(props) {
     views: {},
     shares: {},
   });
+  const postId = id;
+  const [manageServiceModal, setManageServiceModal] = useState(false);
   const history = useHistory();
 
   const updatePost = () => {
@@ -52,6 +55,18 @@ export default function EditPost(props) {
           timerProgressBar: true,
         });
       });
+  };
+
+  const loadServices = () => {
+    axios
+      .post(process.env.REACT_APP_SERVER + "/get-all-services")
+      .then((response) => setData(response.data.posts))
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+  const handleManageService = (pid) => {
+    setManageServiceModal(true);
   };
 
   const updateScholarship = () => {
@@ -156,6 +171,17 @@ export default function EditPost(props) {
         </div>
       </Paper>
 
+      {manageServiceModal ? (
+        <ManageService
+          show={manageServiceModal}
+          setManageServiceModal={setManageServiceModal}
+          postId={postId}
+          loadServices={loadServices}
+        />
+      ) : (
+        ""
+      )}
+
       {data.scholarship ? (
         <Paper elevation={3} style={styles.cardStyle}>
           <h4> Scholarship </h4>
@@ -212,6 +238,7 @@ export default function EditPost(props) {
             </tbody>
           </table>
           <div align="right">
+            <CButton onClick={() => handleManageService(id)}>Manage</CButton>
             <CButton color="info" variant="outline" onClick={updateScholarship}>
               {" "}
               SAVE{" "}

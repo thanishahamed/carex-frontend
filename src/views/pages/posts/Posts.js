@@ -86,7 +86,7 @@ const Posts = (props) => {
   };
 
   return (
-    <div>
+    <div className="container" style={{ maxWidth: 1000 }}>
       <StripeCheckout
         open={checkoutModal}
         close={setCheckoutModal}
