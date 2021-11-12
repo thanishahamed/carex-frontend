@@ -14,9 +14,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import Authenticate from "src/Authenticate";
+import EditFundsForPosts from "./EditFundsForPosts";
 
 export default function ListOfFundsByPost(props) {
   const [data, setData] = useState([]);
+  const [editModal, setEditModal] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -96,7 +98,12 @@ export default function ListOfFundsByPost(props) {
                   <Visibility />
                 </IconButton>
 
-                <IconButton size="small" onClick={() => {}}>
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    setEditModal(true);
+                  }}
+                >
                   <Edit />
                 </IconButton>
               </td>
@@ -104,6 +111,7 @@ export default function ListOfFundsByPost(props) {
           },
         }}
       />
+      <EditFundsForPosts editModal={editModal} setEditModal={setEditModal} />
     </div>
   );
 }
