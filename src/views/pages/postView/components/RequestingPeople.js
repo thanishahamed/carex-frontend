@@ -223,8 +223,15 @@ export default function RequestingPeople(props) {
       ) : (
         ""
       )}
-      <div style={{ fontSize: 15, padding: 10 }}>
-        <table className="table">
+      <div
+        style={{
+          fontSize: 15,
+          padding: 10,
+          overflow: "hidden",
+          overflowX: "scroll",
+        }}
+      >
+        <table className="table" style={{ maxWidth: 100 }}>
           <tbody>
             <tr>
               <th>Posted By</th>

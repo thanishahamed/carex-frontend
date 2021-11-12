@@ -31,7 +31,7 @@ const styles = {
 
 function truncateString(string, limit) {
   if (string.length > limit) {
-    return string.substring(0, limit) + "...";
+    return string.substring(0, limit) + " ...read more";
   } else {
     return string;
   }
