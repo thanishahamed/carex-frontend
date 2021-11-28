@@ -24,6 +24,7 @@ import { useSelector } from "react-redux";
 import RequestForm from "./RequestForm";
 import StripeCheckout from "../../stripePayments/StripeCheckout";
 import "../../posts/posts.css";
+import { Link } from "react-router-dom";
 
 const initPost = {
   category: "Loading....",
@@ -120,8 +121,11 @@ export default function InternalPostView(props) {
           <div>
             <CRow>
               <CCol sm="8">
-                Posted by: <a href=""> {post.user.name} </a> on{" "}
-                {moment(post.created_at).format("LLL")}
+                Posted by:
+                <Link to={`/services/user/${post.user.id}`}>
+                  {post.user.name}
+                </Link>
+                on {moment(post.created_at).format("LLL")}
               </CCol>
               <CCol>
                 <div align="right">

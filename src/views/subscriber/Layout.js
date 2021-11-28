@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUserData } from "src/store/actions/user";
+import PublicProfile from "../pages/publicUserView/PublicProfile";
 const loading = (
   <div
     style={{
@@ -66,6 +67,10 @@ const Layout = () => {
                 <div className="c-body px-2">
                   <React.Suspense fallback={loading}>
                     <Switch>
+                      <Route
+                        path={"/services/user/:id"}
+                        render={(props) => <PublicProfile {...props} />}
+                      />
                       <Route
                         path={"/services/chat-room"}
                         render={(props) => <ChatRoom {...props} />}

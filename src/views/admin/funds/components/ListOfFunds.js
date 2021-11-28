@@ -130,7 +130,7 @@ export default function ListOfFunds(props) {
           actions: (item, index) => {
             return (
               <td className="py-2">
-                <IconButton
+                {/* <IconButton
                   size="small"
                   onClick={() => {
                     // history.push("/services/explore/service/" + item.id);
@@ -141,7 +141,7 @@ export default function ListOfFunds(props) {
 
                 <IconButton size="small" onClick={() => {}}>
                   <Edit />
-                </IconButton>
+                </IconButton> */}
               </td>
             );
           },

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import Authenticate from "src/Authenticate";
 import { loadUserData } from "src/store/actions/user";
 import Swal from "sweetalert2";
+import ProfilePic from "./ProfilePic";
 
 export default function UpdateProfilePhoto(props) {
   const [img, setImg] = useState("");
@@ -56,7 +57,7 @@ export default function UpdateProfilePhoto(props) {
   return (
     <div>
       <CLabel htmlFor="image-load" className="input-file">
-        <img src={img} width="100%" alt="profile" />
+        {img ? <img src={img} width="100%" alt="profile" /> : <ProfilePic />}
       </CLabel>
       <CInput type="file" id="image-load" hidden onChange={selectImage} />
       <br />

@@ -1,0 +1,13 @@
+.bg_image {
+  display: block;
+  z-index: 0;
+  position: absolute;
+  top: 300px;
+  max-height: 700px;
+  max-width: 20px;
+  overflow: hidden;
+}
+
+.card_low_opacity {
+  background-color: rgba(255, 255, 255, 0.4);
+}

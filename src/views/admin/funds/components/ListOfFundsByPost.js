@@ -1,3 +1,4 @@
+import { FundFilled } from "@ant-design/icons";
 import {
   CBadge,
   CButton,
@@ -19,6 +20,7 @@ import EditFundsForPosts from "./EditFundsForPosts";
 export default function ListOfFundsByPost(props) {
   const [data, setData] = useState([]);
   const [editModal, setEditModal] = useState(false);
+  const [editData, setEditData] = useState({});
   const history = useHistory();
 
   useEffect(() => {
@@ -65,6 +67,10 @@ export default function ListOfFundsByPost(props) {
     }
   };
 
+  const handleEditButtonClick = (e, dataObj) => {
+    setEditData(dataObj);
+    setEditModal(true);
+  };
   return (
     <div>
       <br />
@@ -89,29 +95,36 @@ export default function ListOfFundsByPost(props) {
           actions: (item, index) => {
             return (
               <td className="py-2">
-                <IconButton
+                {/* <IconButton
                   size="small"
                   onClick={() => {
                     // history.push("/services/explore/service/" + item.id);
                   }}
                 >
                   <Visibility />
-                </IconButton>
+                </IconButton> */}
 
-                <IconButton
-                  size="small"
-                  onClick={() => {
-                    setEditModal(true);
-                  }}
-                >
-                  <Edit />
-                </IconButton>
+                {item.amount > 0 ? (
+                  <IconButton
+                    size="small"
+                    onClick={(e) => handleEditButtonClick(e, item)}
+                  >
+                    <FundFilled />
+                  </IconButton>
+                ) : (
+                  ""
+                )}
               </td>
             );
           },
         }}
       />
-      <EditFundsForPosts editModal={editModal} setEditModal={setEditModal} />
+      <EditFundsForPosts
+        editModal={editModal}
+        setEditModal={setEditModal}
+        data={editData}
+        loadFundsWithPosts={loadFundsWithPosts}
+      />
     </div>
   );
 }

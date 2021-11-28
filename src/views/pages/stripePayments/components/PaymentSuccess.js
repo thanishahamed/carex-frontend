@@ -23,6 +23,7 @@ export default function PaymentSuccess(props) {
         onClick={() => {
           props.close(false);
           props.setSaved(false);
+          window.location.reload();
         }}
       >
         Back to Home

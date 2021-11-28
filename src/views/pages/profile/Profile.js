@@ -142,7 +142,12 @@ export default function Profile() {
                     id={user.data.id}
                   />
                 ) : (
-                  <ProfilePic />
+                  <div>
+                    <UpdateProfilePhoto
+                      image={user.data.profile_image}
+                      id={user.data.id}
+                    />
+                  </div>
                 )}
               </Paper>
               <br />

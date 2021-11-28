@@ -141,60 +141,6 @@ export default function RequestingPeople(props) {
       />
 
       <br />
-      {post.category === "community request" ? (
-        ""
-      ) : (
-        <div>
-          <h3> PEOPLE WHO ARE INTERESTED IN THIS SERVICE </h3>
-          <CDataTable
-            items={data}
-            fields={fields}
-            columnFilter
-            tableFilter
-            footer
-            itemsPerPageSelect
-            itemsPerPage={5}
-            hover
-            sorter
-            pagination
-            scopedSlots={{
-              status: (item) => (
-                <td>
-                  <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
-                </td>
-              ),
-              actions: (item, index) => {
-                return (
-                  <td className="py-2">
-                    <CButton
-                      color="primary"
-                      variant="outline"
-                      shape="square"
-                      size="sm"
-                      onClick={() => setManagableInfo(item.id)}
-                    >
-                      Manage
-                    </CButton>
-                  </td>
-                );
-              },
-            }}
-          />
-
-          <div align="right">
-            <CButton
-              onClick={() => {
-                getServicesReport(props.postId);
-              }}
-              color="info"
-              variant="outline"
-              size="sm"
-            >
-              Download Service Request Report
-            </CButton>
-          </div>
-        </div>
-      )}
 
       <hr />
 
@@ -306,6 +252,61 @@ export default function RequestingPeople(props) {
           ""
         )}
       </div>
+      <br />
+      {post.category === "community request" ? (
+        ""
+      ) : (
+        <div>
+          <h3> PEOPLE WHO ARE INTERESTED IN THIS SERVICE </h3>
+          <CDataTable
+            items={data}
+            fields={fields}
+            columnFilter
+            tableFilter
+            footer
+            itemsPerPageSelect
+            itemsPerPage={5}
+            hover
+            sorter
+            pagination
+            scopedSlots={{
+              status: (item) => (
+                <td>
+                  <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
+                </td>
+              ),
+              actions: (item, index) => {
+                return (
+                  <td className="py-2">
+                    <CButton
+                      color="primary"
+                      variant="outline"
+                      shape="square"
+                      size="sm"
+                      onClick={() => setManagableInfo(item.id)}
+                    >
+                      Manage
+                    </CButton>
+                  </td>
+                );
+              },
+            }}
+          />
+
+          <div align="right">
+            <CButton
+              onClick={() => {
+                getServicesReport(props.postId);
+              }}
+              color="info"
+              variant="outline"
+              size="sm"
+            >
+              Download Service Request Report
+            </CButton>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

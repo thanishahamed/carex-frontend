@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GET_USER_INFO, loadUserData, testLoader } from "./store/actions/user";
 import OfficerView from "./views/officerView/OfficerView";
 import VoiceAssitant from "./views/pages/voiceRecognition/VoiceAssitant";
+import PublicProfile from "./views/pages/publicUserView/PublicProfile";
 
 const loading = (
   <div
